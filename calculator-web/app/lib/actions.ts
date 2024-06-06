@@ -13,7 +13,6 @@ let toBeReset = false;    // Set true after calculate() is invoked
 export function inputNumber(value: number): void {
     if(toBeReset) {
         reset();
-        toBeReset = false;
     }
 
     if(isFirstNumber) {
@@ -30,6 +29,9 @@ export function inputNumber(value: number): void {
 }
 
 export function inputOperation(o: Operation): void {
+    if(toBeReset) {
+        reset();
+    }
     // alert(`Operation: ${operation}`);
     if(isFirstNumber && canInputSecondNumber) {
         isFirstNumber = false;
@@ -44,15 +46,19 @@ export function calculate(): void {
         switch(operation) {
             case Operation.ADD: 
                 m = m + n;
+                n = 0;
                 break;
             case Operation.SUBTRACT:
                 m = m - n;
+                n = 0;
                 break;
             case Operation.MULTIPLY:
                 m = m * n;
+                n = 0;
                 break;
             case Operation.DIVIDE:
                 m = m / n;
+                n = 0;
                 break;
             default:
                 console.log(`Undefined operation`);
@@ -69,6 +75,7 @@ export function reset(): void {
     isFirstNumber = true;
     isEquationValid = false;
     canInputSecondNumber = false;
+    toBeReset = false;
 }
 
 export function getFirstNumber(): number {
