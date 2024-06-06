@@ -7,9 +7,15 @@ let operation = Operation.ADD;
 let canInputSecondNumber = false;    // Whether we can start inputting the value of the second number
 let isEquationValid = false;    // Whether we can calculate the values of m and n
 const MAX_VLAUE = 1000000000;    //TODO to be changed
+let toBeReset = false;    // Set true after calculate() is invoked
 
 
 export function inputNumber(value: number): void {
+    if(toBeReset) {
+        reset();
+        toBeReset = false;
+    }
+
     if(isFirstNumber) {
         if(m < MAX_VLAUE) {    //TODO Ensure the value of m does not exceed a maximum value
             m = m * 10 + value;
@@ -21,32 +27,39 @@ export function inputNumber(value: number): void {
             isEquationValid = true;
         }
     }
-    alert(`New m: ${m}; New n: ${n}`);
 }
 
-export function inputOperation(operation: Operation): void {
+export function inputOperation(o: Operation): void {
     // alert(`Operation: ${operation}`);
     if(isFirstNumber && canInputSecondNumber) {
         isFirstNumber = false;
+        operation = o;
     }
 }
 
-export function calculate(): number | null {
+export function calculate(): void {
     if(!isEquationValid) {
-        return null;
+        return;
     } else {
         switch(operation) {
             case Operation.ADD: 
-                return m + n;
+                m = m + n;
+                break;
             case Operation.SUBTRACT:
-                return m - n;
+                m = m - n;
+                break;
             case Operation.MULTIPLY:
-                return m * n;
+                m = m * n;
+                break;
             case Operation.DIVIDE:
-                return m / n;
+                m = m / n;
+                break;
             default:
-                return null;
+                console.log(`Undefined operation`);
+                break;
         }
+        isFirstNumber = true;
+        toBeReset = true;
     }
 }
 
@@ -70,3 +83,10 @@ export function updateDisplay(): void {
     //TODO Update function. Perhaps it should not be placed in actions.tsx
 }
 
+export function getDisplayNumber(): string {
+    if(isFirstNumber) {
+        return m.toString();
+    } else {
+        return n.toString();
+    }
+}

@@ -38,14 +38,20 @@ export default function Button({text, action}: {text: number | Operation, action
             case Operation.DIVIDE:
                 displayText = "/";
                 break;
+            case Operation.EQUAL:
+                displayText = "=";
+                break;
+            case Operation.RESET:
+                displayText = "<-";
+                break;
             default:
                 displayText = "N/A";
                 break;
         }
     }
     return (
-        <div>
-            <button className="bg-slate-900 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-full" onClick={click}>{displayText}</button>
-        </div>
+        // <div className="max-w-24">
+            <button className="bg-slate-900 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-full w-20 h-20 text-4xl" onClick={click}>{displayText}</button>
+        // </div>
     );
 }
